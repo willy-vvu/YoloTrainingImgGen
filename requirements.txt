@@ -1,1 +1,1 @@
-Pillow
+tqdm Pillow
