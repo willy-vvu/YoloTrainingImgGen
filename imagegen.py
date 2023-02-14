@@ -17,9 +17,10 @@ parser.add_argument("--quantity", type=int, default=10,
                     help="number of composites to generate")
 parser.add_argument("--prefix", type=str, default="img",
                     help="filename prefix for output images and labels")
-
 parser.add_argument("--size", type=int, default=640,
                     help="target image size (px)")
+parser.add_argument("--image-type", type=str, default="png",
+                    help="target image type")
 
 parser.add_argument("--enable-resize", type=bool, default=True,
                     help="enable random image resizing")
@@ -42,6 +43,8 @@ foregrounds_path = args.foreground_path
 
 output_path = args.output_path
 output_file_prefix = args.prefix
+output_size = args.size
+output_image_type = args.image_type
 
 images_suffix = "images"
 labels_suffix = "labels"
@@ -50,10 +53,7 @@ fg_random_resize_enabled = args.enable_resize
 fg_random_resize_max = args.resize_max if fg_random_resize_enabled else 1
 fg_random_resize_min = args.resize_min if fg_random_resize_enabled else 1
 
-output_size = args.size
-
 magick = args.magick
-
 
 # Get the list of background and foreground images
 backgrounds = os.listdir(backgrounds_path)
@@ -115,7 +115,7 @@ for i in tqdm(range(total_image_number)):
     x_offset = random.randint(0, bg_width - fg_width)
     y_offset = random.randint(0, bg_height - fg_height)
 
-    output_image_filename = f"{output_file_prefix}_{i}.png"
+    output_image_filename = f"{output_file_prefix}_{i}.{output_image_type}"
     output_label_filename = f"{output_file_prefix}_{i}.txt"
 
     output_image_fullpath = os.path.join(
